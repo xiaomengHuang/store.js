@@ -1,15 +1,3 @@
-/**
- * Created by XHuang14 on 3/3/2017.
- */
-/*!
- * storejs v1.0.12
- * Local storage localstorage package provides a simple API
- *
- * Copyright (c) 2016 kenny wang <wowohoo@qq.com>
- * https://github.com/jaywcjlove/store.js
- *
- * Licensed under the MIT license.
- */
 (function(f) {
     if (typeof exports === "object" && typeof module !== "undefined") {
         module.exports = f();

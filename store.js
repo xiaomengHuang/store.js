@@ -30,6 +30,7 @@
             return true;//TODO check id
         }
     };
+
     function Store (){
         if(!this instanceof Store){
             return new Store();
@@ -42,7 +43,7 @@
          * @param id
          */
         getOne:function(id){
-
+            
         },
         /**
          * @function use info to get all who has this info
