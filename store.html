@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="store.js"></script>
+</head>
+<body>
+<script>
+    store.init(['test1','test2']);
+    var back = store.addOne({test1:'1',test2:'2'});
+    console.log(back);
+</script>
+</body>
+</html>
