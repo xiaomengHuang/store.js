@@ -8,8 +8,12 @@
 <body>
 <script>
     store.init(['test1','test2']);
-    var back = store.addOne({test1:'1',test2:'2'});
-    console.log(back);
+    // var back = store.addOne({test1:'1',test2:'2'});
+    // console.log(back);
+    // var t = store.getOne(back.id);
+    // console.log(t);
+    var all = store.queryAll({filed:'test1',value:'1'});
+    console.log(all);
 </script>
 </body>
 </html>

@@ -59,8 +59,16 @@
             _filed.forEach(function(_f) {
                 obj[_f] = _info[_f]||'';
             });
+            obj.id = _id;
             return obj;
+        },
+        _checkExist:function(info){
+            //TODO think about need to check same info want to store to database check
+        },
+        _checkFiledExist:function(_f){
+            return _filed.toString().indexOf(_f)!==-1;
         }
+
     };
 
     function Store (){
@@ -82,44 +90,85 @@
             var id = null;
             if(_pf._isJson(info)){
                 id = _pf._getNewId();
-                info.id = id;
-                _ls.setItem(id,_pf._toString(info));
+                var _info = _pf._getFullInfo(id,info);
+                _ls.setItem(id,_info);
             }
             return id?{status:true,message:'add successed',id:id}:{status:false,message:'wrong json input'};
         },
-        /**
-         * @function use id get one
-         * @param id
-         */
         getOne:function(id){
-            return _pf._isId(id)?{status:true,value:_pf._toJson(_ls.getItem(id))}:{status:false};
+            return _pf._isId(id)?{status:true,message:'get successed',value:_pf._toJson(_ls.getItem(id))}:{status:false,message:'get failed , wrong id input or id not exist'};
         },
-        /**
-         * @function use info to get all who has this info
-         * @param info
-         */
-        queryAll:function(info){
-            var _filed = info.filed;
-            var _keyWords = info[_filed];
-            console.log(_ls,'-------');
-            _ls.forEach(function(){
-
-            });
+        queryAll:function(_param){
+            var _filed = _param.filed,
+            _keyWords = _param.value,
+            all = [],
+            obj = {};
+            for(var s in _ls){
+                if(s!==FNAME){
+                    obj = _pf._toJson(_ls[s]);
+                    if(obj[_filed] === _keyWords){
+                        all.push(obj);
+                    }
+                }
+            }
+            return all;
         },
         updateOne:function(id,info){
-
+            var old = this.getOne(id);
+            if(old.status&&_pf._isJson(info)){
+                var obj = old.value;
+                for(i in info){
+                    if(_pf._checkFiledExist(i)){
+                        obj[i] = info[i];
+                    }
+                }
+                _ls.setItem(id,obj);
+            }
+            return {status:old.status&&_pf._isJson(info)};
         },
-        updateAll:function(info){
-
+        updateAll:function(_param,info){
+            var all = this.queryAll(_param);
+            all.forEach(function(obj){
+                this.updateOne(obj.id,info);
+            });
         },
-        likelyAll:function(info){
-
+        likely:function(_param){
+            var _filed =  _param.filed;
+            var _keyWords = _param.value;
+            var obj = {},
+            all = [];
+            for(var s in _ls){
+                if(s!==FNAME){
+                    obj = _pf._toJson(_ls[s]);
+                    if(obj[_filed].indexOf(_keyWords)!==-1){
+                        all.push(obj);
+                    }
+                }
+            }
+            return all;
+        },
+        likelyAll:function(_param){
+            var _keyWords = _param.value,
+            all = [];
+            for(var s in _ls){
+                if(s!==FNAME){
+                    if(_ls[s].indexOf(_keyWords)!==-1){
+                        all.push(_pf._toJson(_ls[s]));
+                    }
+                }
+            }
+            return all;
         },
         deleteOne:function(id){
-
+            var status = null;
+            if(_pf._isId(id)){
+                status = _ls.getItem(id);
+                _ls.removeItem(id);
+            }
+            return status!==null;
         },
-        deleteAll:function(info){
-
+        deleteAll:function(){
+            _ls.clear();
         }
     };
     for(var s in Store.prototype){
