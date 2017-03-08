@@ -1,7 +1,11 @@
 /**
- * @author kevin
- * @function making localStorage powerful and user can use in a easy way
- *
+ * -------------------------------------------------------------------------
+ * | @version v1.0.0                                                           |
+ * | @author kevin                                                         |
+ * | @function making localStorage powerful and user can use in a easy way |
+ * | we offered some method , which like databse .If u had used any  DB    |
+ * | u may understand easyly                                               |
+ * -------------------------------------------------------------------------
  */
 (function(fn){
     var g;
