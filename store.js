@@ -82,7 +82,11 @@
             _ls.removeItem(id);
         },
         _clear:function(){
-            _ls.clear();
+            for(var s in _ls){
+                if(_pf._isId(s)){
+                    _pf._removeItem(s);
+                } 
+            }
         }
 
     };
@@ -149,6 +153,7 @@
             all.forEach(function(obj){
                 _this.updateOne(obj.id,info);
             });
+            return {status:all.length!==0};
         },
         likely:function(_param){
             var _filed =  _param.filed;
@@ -185,7 +190,7 @@
                 status = _ls.getItem(id);
                 _pf._removeItem(id);
             }
-            return status!==null;
+            return {status:status!==null};
         },
         deleteAll:function(){
             _pf._clear();
