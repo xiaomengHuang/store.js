@@ -117,3 +117,7 @@ please check the store.html file
 ### deleteAll():void
 * @function : delete all localStore info 
 * @example : store.deleteAll();
+
+
+##by the end
+### if this file can help u ,please give me a star ~
