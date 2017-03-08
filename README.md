@@ -16,22 +16,16 @@
 ### your project and import the file to the HTML file. just like...
 
 `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>import</title>
-    <script src="store.js"></script>
-</head>
-<body>
-</body>
-</html>
+
+   <script src="store.js"></script>
+   
 `
 
 ## Example
 ---------------------------------------------------------------------------
 
 `
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,6 +52,7 @@
 </script>
 </body>
 </html>
+
 `
 
 ## APIs
