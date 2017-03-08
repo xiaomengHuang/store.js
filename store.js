@@ -102,6 +102,7 @@
             if(new_filded instanceof Array){
                 if(!_pf._compare(_pf._getItem(FNAME)||[],new_filded)){
                     _pf._setItem(FNAME,new_filded);
+                    _pf._clear();
                 }
             }
            _filed = _pf._getItem(FNAME);

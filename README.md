@@ -39,6 +39,7 @@ please check the store.html file
 * @param : array needed
 * @function : this method is for init store , and confirm the fileds
 * @example : store.init(['name','age','sex']);
+* @notice : every time u change fileds ,it will delete all data first
 
 
 ### addOne(param):object
