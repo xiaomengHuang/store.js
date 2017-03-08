@@ -67,6 +67,18 @@
         },
         _checkFiledExist:function(_f){
             return _filed.toString().indexOf(_f)!==-1;
+        },
+        _getItem:function(item){
+            return _ls.getItem(item)?_pf._toJson(_ls.getItem(item)):{};
+        },
+        _setItem:function(id,item){
+            _ls.setItem(id,_pf._toString(item));
+        },
+        _removeItem:function(id){
+            _ls.removeItem(id);
+        },
+        _clear:function(){
+            _ls.clear();
         }
 
     };
@@ -80,11 +92,11 @@
     Store.prototype = {
         init:function(new_filded){
             if(new_filded instanceof Array){
-                if(!_pf._compare(JSON.parse(_ls.getItem(FNAME))||[],new_filded)){
-                    _ls.setItem(FNAME,_pf._toString(new_filded));
+                if(!_pf._compare(_pf._getItem(FNAME)||[],new_filded)){
+                    _pf._setItem(FNAME,new_filded);
                 }
             }
-           _filed = _pf._toJson(_ls.getItem(FNAME));
+           _filed = _pf._getItem(FNAME);
         },
         addOne:function(info){
             var id = null;
@@ -96,7 +108,7 @@
             return id?{status:true,message:'add successed',id:id}:{status:false,message:'wrong json input'};
         },
         getOne:function(id){
-            return _pf._isId(id)?{status:true,message:'get successed',value:_pf._toJson(_ls.getItem(id))}:{status:false,message:'get failed , wrong id input or id not exist'};
+            return _pf._isId(id)?{status:true,message:'get successed',value:_pf._getItem(id)}:{status:false,message:'get failed , wrong id input or id not exist'};
         },
         queryAll:function(_param){
             var _filed = _param.filed,
@@ -105,7 +117,7 @@
             obj = {};
             for(var s in _ls){
                 if(s!==FNAME){
-                    obj = _pf._toJson(_ls[s]);
+                    obj = _pf._getItem(s);
                     if(obj[_filed] === _keyWords){
                         all.push(obj);
                     }
@@ -115,21 +127,23 @@
         },
         updateOne:function(id,info){
             var old = this.getOne(id);
-            if(old.status&&_pf._isJson(info)){
+            var status = old.status&&_pf._isJson(info);
+            if(status){
                 var obj = old.value;
-                for(i in info){
+                for(var i in info){
                     if(_pf._checkFiledExist(i)){
                         obj[i] = info[i];
                     }
                 }
-                _ls.setItem(id,obj);
+                _pf._setItem(id,obj);
             }
-            return {status:old.status&&_pf._isJson(info)};
+            return {status:status};
         },
         updateAll:function(_param,info){
             var all = this.queryAll(_param);
+            var _this = this;
             all.forEach(function(obj){
-                this.updateOne(obj.id,info);
+                _this.updateOne(obj.id,info);
             });
         },
         likely:function(_param){
@@ -139,7 +153,7 @@
             all = [];
             for(var s in _ls){
                 if(s!==FNAME){
-                    obj = _pf._toJson(_ls[s]);
+                    obj = _pf._getItem(s);
                     if(obj[_filed].indexOf(_keyWords)!==-1){
                         all.push(obj);
                     }
@@ -149,11 +163,13 @@
         },
         likelyAll:function(_param){
             var _keyWords = _param.value,
+            obj={},
             all = [];
             for(var s in _ls){
                 if(s!==FNAME){
-                    if(_ls[s].indexOf(_keyWords)!==-1){
-                        all.push(_pf._toJson(_ls[s]));
+                    obj = _pf._getItem(s);
+                    if(_pf._toString(obj).indexOf(_keyWords)!==-1){
+                        all.push(obj);
                     }
                 }
             }
@@ -163,12 +179,12 @@
             var status = null;
             if(_pf._isId(id)){
                 status = _ls.getItem(id);
-                _ls.removeItem(id);
+                _pf._removeItem(id);
             }
             return status!==null;
         },
         deleteAll:function(){
-            _ls.clear();
+            _pf._clear();
         }
     };
     for(var s in Store.prototype){
