@@ -24,9 +24,9 @@
 ### for this version is a test version and i didn't upload the js to npm
 ### so , u can't install use npm install . User have to copy the file to 
 ### your project and import the file to the HTML file. just like...
-
+`
 <script src="store.js"></script>
-
+`
 ## Example
 ---------------------------------------------------------------------------
 
