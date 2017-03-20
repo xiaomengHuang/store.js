@@ -120,5 +120,5 @@ please check the store.html file
 * @example : store.deleteAll();
 
 
-##by the end
+## by the end
 ### if this file can help u ,please give me a star ~
